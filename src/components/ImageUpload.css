@@ -1,0 +1,62 @@
+.upload-container {
+  position: relative;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 60px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+.upload-container:hover {
+  border-color: #94a3b8;
+  background: #f1f5f9;
+}
+
+.upload-container.dragging {
+  border-color: #3b82f6;
+  background: #dbeafe;
+  transform: scale(1.02);
+}
+
+.upload-content {
+  pointer-events: none;
+}
+
+.upload-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  color: #64748b;
+  transition: color 0.3s ease;
+}
+
+.upload-container:hover .upload-icon {
+  color: #475569;
+}
+
+.upload-container.dragging .upload-icon {
+  color: #3b82f6;
+}
+
+.upload-container h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.upload-container p {
+  margin: 0;
+  font-size: 16px;
+  color: #64748b;
+}
+
+.file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: all;
+}
