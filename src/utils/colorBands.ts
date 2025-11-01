@@ -157,12 +157,20 @@ export function renderColorBands(
   const totalHeight = bands.reduce((sum, band) => sum + band.height, 0);
   const scale = height / totalHeight;
 
-  let currentY = 0;
-  for (const band of bands) {
-    const bandHeight = band.height * scale;
+  // Use cumulative rounding to prevent gaps between bands
+  let cumulativeY = 0;
+  for (let i = 0; i < bands.length; i++) {
+    const band = bands[i];
+    const nextCumulativeY = i === bands.length - 1
+      ? height  // Last band always extends to the bottom
+      : Math.round(cumulativeY + band.height * scale);
+
+    const bandHeight = nextCumulativeY - Math.round(cumulativeY);
+
     ctx.fillStyle = band.color;
-    ctx.fillRect(0, currentY, width, bandHeight);
-    currentY += bandHeight;
+    ctx.fillRect(0, Math.round(cumulativeY), width, bandHeight);
+
+    cumulativeY += band.height * scale;
   }
 
   return canvas;
