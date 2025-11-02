@@ -10,7 +10,7 @@ interface ColorBandPreviewProps {
 
 export function ColorBandPreview({ image, onReset }: ColorBandPreviewProps) {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-  const [colorSensitivity, setColorSensitivity] = useState(80);
+  const [colorSensitivity, setColorSensitivity] = useState(50);
   const [minBandHeight, setMinBandHeight] = useState(2);
   const [outputWidth, setOutputWidth] = useState(Math.min(image.width, 1920));
   const [bands, setBands] = useState<ColorBand[]>([]);
@@ -24,8 +24,10 @@ export function ColorBandPreview({ image, onReset }: ColorBandPreviewProps) {
     // Use setTimeout to allow UI to update
     setTimeout(() => {
       try {
-        // Invert the sensitivity so higher values = more bands
-        const colorThreshold = 105 - colorSensitivity;
+        // Use exponential mapping for better distribution across the slider range
+        // Maps 5-100 sensitivity to ~100-5 threshold with exponential curve
+        const normalizedSensitivity = (colorSensitivity - 5) / 95; // 0 to 1
+        const colorThreshold = Math.round(100 * Math.pow(1 - normalizedSensitivity, 2.5) + 5);
         const colorBands = generateColorBands(image, colorThreshold, minBandHeight);
         setBands(colorBands);
 
