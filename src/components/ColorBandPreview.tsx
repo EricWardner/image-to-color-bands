@@ -10,7 +10,7 @@ interface ColorBandPreviewProps {
 
 export function ColorBandPreview({ image, onReset }: ColorBandPreviewProps) {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-  const [colorThreshold, setColorThreshold] = useState(25);
+  const [colorSensitivity, setColorSensitivity] = useState(80);
   const [minBandHeight, setMinBandHeight] = useState(2);
   const [outputWidth, setOutputWidth] = useState(Math.min(image.width, 1920));
   const [bands, setBands] = useState<ColorBand[]>([]);
@@ -24,6 +24,8 @@ export function ColorBandPreview({ image, onReset }: ColorBandPreviewProps) {
     // Use setTimeout to allow UI to update
     setTimeout(() => {
       try {
+        // Invert the sensitivity so higher values = more bands
+        const colorThreshold = 105 - colorSensitivity;
         const colorBands = generateColorBands(image, colorThreshold, minBandHeight);
         setBands(colorBands);
 
@@ -51,7 +53,7 @@ export function ColorBandPreview({ image, onReset }: ColorBandPreviewProps) {
         setIsProcessing(false);
       }
     }, 10);
-  }, [image, colorThreshold, minBandHeight]);
+  }, [image, colorSensitivity, minBandHeight]);
 
   const handleDownload = () => {
     if (!bands.length) return;
@@ -99,17 +101,17 @@ export function ColorBandPreview({ image, onReset }: ColorBandPreviewProps) {
         <div className="control-group">
           <label>
             <span>Color Sensitivity</span>
-            <span className="control-value">{colorThreshold}</span>
+            <span className="control-value">{colorSensitivity}</span>
           </label>
           <input
             type="range"
             min="5"
             max="100"
-            value={colorThreshold}
-            onChange={(e) => setColorThreshold(Number(e.target.value))}
+            value={colorSensitivity}
+            onChange={(e) => setColorSensitivity(Number(e.target.value))}
             className="slider"
           />
-          <p className="control-hint">Lower = more bands, Higher = fewer bands</p>
+          <p className="control-hint">Higher = more bands, Lower = fewer bands</p>
         </div>
 
         <div className="control-group">
