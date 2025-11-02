@@ -2,6 +2,8 @@
 
 Transform your photos into abstract horizontal color bands with smart segmentation based on color distribution.
 
+hosted at: https://colorbands.app/
+
 ## Features
 
 - **Smart Color Segmentation**: Intelligently groups rows of pixels with similar colors instead of using fixed-size bands
