@@ -36,6 +36,11 @@ function App() {
           </svg>
           All images are processed locally in your browser. No data is uploaded or stored.
         </p>
+        <p>
+          <a href="https://github.com/EricWardner/image-to-color-bands" target="_blank" rel="noopener noreferrer">
+            View on GitHub
+          </a>
+        </p>
       </footer>
     </div>
   )
